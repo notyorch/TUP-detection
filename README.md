@@ -51,25 +51,27 @@ TUP Detection is the **TUP Manager** brain inside the wider AIGSMP platform: the
 
 Within the Manager, the engine runs a **multi-layer, fail-safe pipeline (M1–M5)**. Cheap deterministic checks run first; the neural classifier only runs when no rule fires, and an optional LLM judge arbitrates the gray zone.
 
-```text
-Prompt / LLM output
-       │
-       ▼
-  [M1] Normalize + segment            text_normalize · prompt_segments
-       │
-       ▼
-  [M2] Build variant set  V(x)        raw · normalized · per-segment
-       │
-       ├──► [M3] L1 Regex policy ──hit──► ALERT (rule_id, OWASP-mapped)
-       │         policies/rules/
-       │
-       ▼  (no hit)
-  [M4] Sentinel v2  ── max s(v) over V(x)   injection_classifier (HF endpoint)
-       │
-       ├──► [L3] LLM judge (optional)  ── gray zone  s ∈ [0.15, 0.85]
-       │         nvidia_judge_engine
-       ▼
-  [M5] Threshold  τ  → verdict → structured alert → TUP-fullstack
+```mermaid
+flowchart TD
+    X(["Prompt / LLM output"])
+
+    X --> M1
+    M1["M1 Normalize + segment<br/><i>text_normalize · prompt_segments</i>"]
+    M1 --> M2
+    M2["M2 Build variant set V(x)<br/><i>raw · normalized · per-segment</i>"]
+
+    M2 --> M3
+    M3["M3 L1 Regex policy<br/><i>policies/rules/</i>"]
+    M3 -- hit --> ALERT["🚨 ALERT<br/><i>rule_id, OWASP-mapped</i>"]
+    M3 -- no hit --> M4
+
+    M4["M4 Sentinel v2 — max s(v) over V(x)<br/><i>injection_classifier (HF endpoint)</i>"]
+    M4 --> L3
+    L3["L3 LLM judge (optional)<br/><i>nvidia_judge_engine</i>"]
+    L3 -. gray zone s ∈ [0.15, 0.85] .-> M4
+
+    M4 --> M5
+    M5["M5 Threshold τ → verdict → structured alert → TUP-fullstack"]
 ```
 
 | Layer | Component | Characteristics |

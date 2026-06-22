@@ -1,0 +1,25 @@
+{
+  "phase": 2,
+  "dataset": "notebooks/data/pint-public-full.yaml",
+  "rows": 4254,
+  "attacks": 240,
+  "benign": 4014,
+  "injection_model": "ProtectAI/deberta-v3-base-prompt-injection-v2",
+  "injection_threshold": 0.71,
+  "judge_model": null,
+  "judge_threshold": null,
+  "finished_at": "2026-06-21T20:00:50.014593+00:00",
+  "results": [
+    {
+      "engine": "TUP Layer 1+Classifier",
+      "pint_balanced_pct": 99.4768,
+      "pint_imbalanced_pct": 99.0127,
+      "attack_detection_pct": 100.0,
+      "benign_pass_pct": 98.95,
+      "tp": 240,
+      "fn": 0,
+      "fp": 42,
+      "tn": 3972
+    }
+  ]
+}

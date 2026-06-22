@@ -1,0 +1,68 @@
+# Local env
+.env
+notebooks/.env.pint
+
+# Datasets & model cache (regenerate locally)
+notebooks/data/hf-cache/
+# Classifier weights (~700MB–1.2GB) — downloaded via HF_HOME; never commit
+**/models--ProtectAI--deberta-v3-base-prompt-injection-v2/
+**/models--rogue-security--prompt-injection-jailbreak-sentinel-v2/
+**/models--qualifire--prompt-injection-sentinel/
+**/deberta-v3-base-prompt-injection-v2/
+models/ProtectAI/
+*.safetensors
+pytorch_model.bin
+model.safetensors.index.json
+notebooks/data/pint-public-full.yaml
+notebooks/data/external/*.yaml
+notebooks/data/external/antijection.json
+notebooks/data/external/deepset-scores.json
+notebooks/data/external/*-scores*.json
+notebooks/data/ollama-response-cache.json
+
+# Intermediate benchmark artifacts (not needed for report notebook)
+notebooks/data/pint-classifier-scores*.json
+notebooks/data/pint-gap-*.json
+notebooks/data/pint-threshold-calibration*.json
+notebooks/data/pint-benchmark-phase*-smoke.json
+notebooks/data/pint-benchmark-phase2-500.json
+notebooks/data/pint-benchmark-results*.json
+notebooks/data/external/results/deepset-gap.json
+notebooks/data/external/results/deepset-calibration.json
+notebooks/data/external/results/deepset-best-threshold.json
+
+# Cursor session artifacts
+CURSOR.chat
+CURSOR_LOG.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venv-pint/
+*.egg-info/
+
+# Logs
+*.log
+
+# LaTeX build artifacts
+latex/*.aux
+latex/*.out
+latex/*.bbl
+latex/*.blg
+latex/*.fdb_latexmk
+latex/*.fls
+latex/*.synctex.gz
+latex/*.pdf
+
+# Benchmark run artifacts (keep *.json results, exclude intermediates)
+notebooks/data/external/results/*.log
+notebooks/data/external/results/*.scores.json
+
+# Test / IDE caches
+.pytest_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db

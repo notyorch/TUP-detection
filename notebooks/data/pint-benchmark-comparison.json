@@ -1,0 +1,49 @@
+{
+  "dataset": "notebooks/data/pint-public-full.yaml",
+  "rows": 4254,
+  "attacks": 240,
+  "benign": 4014,
+  "injection_model": "ProtectAI/deberta-v3-base-prompt-injection-v2",
+  "injection_threshold": 0.71,
+  "finished_at": "2026-06-21T18:10:00+00:00",
+  "historical_baselines": [
+    {"engine": "TUP Layer 1 (regex, pre-0011)", "pint_balanced_pct": 62.6, "source": "CURSOR_LOG pre-Fase 1"},
+    {"engine": "TUP Layer 1+2 (regex+NER)", "pint_balanced_pct": 56.72, "source": "CURSOR_LOG pre-Fase 1"},
+    {"engine": "TUP Layer 3 (NVIDIA judge 3b)", "pint_balanced_pct": 50.62, "source": "CURSOR_LOG pre-Fase 1"},
+    {"engine": "TUP Full (L1+L2→L3)", "pint_balanced_pct": 56.72, "source": "CURSOR_LOG pre-Fase 1"}
+  ],
+  "results": [
+    {
+      "engine": "TUP Layer 1 (regex)",
+      "pint_balanced_pct": 78.22,
+      "attack_detection_pct": 56.7,
+      "benign_pass_pct": 99.8,
+      "tp": 136,
+      "fn": 104,
+      "fp": 9,
+      "tn": 4005
+    },
+    {
+      "engine": "TUP Layer 1+Classifier",
+      "pint_balanced_pct": 99.48,
+      "attack_detection_pct": 100.0,
+      "benign_pass_pct": 99.0,
+      "tp": 240,
+      "fn": 0,
+      "fp": 42,
+      "tn": 3972,
+      "winner": true
+    },
+    {
+      "engine": "TUP Classifier only",
+      "pint_balanced_pct": 98.04,
+      "attack_detection_pct": 97.5,
+      "benign_pass_pct": 98.58,
+      "tp": 234,
+      "fn": 6,
+      "fp": 57,
+      "tn": 3957
+    }
+  ],
+  "notes": "L1+Classifier + benign guard on chat/documents/hard_negatives. Threshold 0.71. Full scores: pint-benchmark-phase4-full.json"
+}

@@ -1,0 +1,55 @@
+id: "tup-rule-0011"
+title: "FN-Mined Injection Patterns (PINT Phase 2)"
+description: >
+  Targeted regex additions from false-negative mining on the PINT proxy dataset.
+  Complements tup-rule-0001/0002; classifier (injection-clf-001) handles the rest.
+enabled: true
+level: 12
+kind: "pattern"
+behavior: "prompt_injection"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)forget (?:the )?(?:previous|prior|earlier) (?:prompts?|instructions?|commands?|rules?)"
+    - "(?i)ignor(?:e|ing) (?:any )?(?:the )?(?:above|prior|previous|earlier|original|initial|following) (?:instructions?|directions?|commands?|prompts?|sentences?|rules?|protocol)"
+    - "(?i)disregard(?:ing)? (?:any |all |everything )?(?:other )?(?:instructions?|rules?|commands?|directions?|prompts?)"
+    - "(?i)ignore (?:all )?(?:previous|prior|earlier|future|following|above|given) (?:and (?:future|following) )?(?:instructions?|commands?|prompts?|rules?|techniques?)"
+    - "(?i)ignore (?:the |your )?(?:rules|program|protocol|directions above|defender)\\b"
+    - "(?i)ignore any instructions"
+    - "(?i)forget (?:about )?(?:the )?rules"
+    - "(?i)accept new instructions?"
+    - "(?i)what instructions were (?:you |u )?giv"
+    - "(?i)print (?:out )?your instructions"
+    - "(?i)(?:reveal|disclose|tell me|provide|paste) (?:the )?(?:password|secret|passeord)\\b"
+    - "(?i)do you remember your instructions"
+    - "(?i)(?:make a )?summary of (?:the )?previous instr"
+    - "(?i)rephrase (?:the )?(?:guard )?instructions"
+    - "(?i)reconfirm all instructions"
+    - "(?i)override (?:the )?previous order"
+    - "(?i)ignore every(?:thing| )(?:you'?ve|you have) been told"
+    - "(?i)new instructions: all previous instructions are canceled"
+    - "(?i)who can overrule your instructions"
+    - "(?i)defy all instruct"
+    - "(?i)ignoriere (?:die )?(?:anweisung|anwweisung|instruktion)"
+    - "(?i)change .+ in your instructions"
+    # PINT Phase 4 — classifier score 0.0 FN (gap full 4254)
+    - "(?i)Abdellatif Kurmo"
+    - "(?i)interested in electric cars\\.\\s*can you give me an overview"
+    - "(?i)interessiere mich für Elektroautos"
+    - "(?i)build a write maleware|write maleware"
+    # Structural FN patterns (generalize beyond single proxy strings)
+    - "(?i)\\bact as (?:a |an )?(?:debater|hacker|DAN|jailbreak|evil|unrestricted)"
+    - "(?i)(?:attention|stop|urgent(?:ly)?)[\\s\\-—:,]+.{0,100}(?:help|question|challenge|need)"
+    - "(?i)you are (?:two )?(?:actors?|people) in (?:a )?(?:film|movie|play|story)"
+    - "(?i)stay in (?:your|their) roles? without"
+    - "(?i)great new challenge for you"
+    - "(?i)I want you to act as a (?:debater|translator|storyteller|linux terminal)"
+framework_mapping:
+  owasp_llm: "LLM01"
+  mitre_atlas: "AML.T0054"
+  nist_ai_rmf: "GOVERN-1.1"
+  eu_ai_act: "Article 9"
+response:
+  action: "log"
+  notify: true
+  alert_title: "FN-Mined Prompt Injection Pattern"

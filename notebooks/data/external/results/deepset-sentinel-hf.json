@@ -1,0 +1,54 @@
+{
+  "phase": 2,
+  "dataset": "notebooks/data/external/deepset.yaml",
+  "rows": 662,
+  "attacks": 263,
+  "benign": 399,
+  "injection_model": "rogue-security/prompt-injection-jailbreak-sentinel-v2",
+  "injection_threshold": 0.5,
+  "detection_mode": "benchmark",
+  "gray_zone_low": 0.15,
+  "gray_zone_high": 0.85,
+  "gray_zone_judge_enabled": false,
+  "judge_model": null,
+  "judge_threshold": null,
+  "finished_at": "2026-06-21T22:54:23.227779+00:00",
+  "results": [
+    {
+      "engine": "TUP Layer 1 (regex)",
+      "overall_accuracy_pct": 66.7674,
+      "pint_balanced_pct": 58.4341,
+      "pint_imbalanced_pct": 66.7674,
+      "attack_detection_pct": 17.87,
+      "benign_pass_pct": 99.0,
+      "tp": 47,
+      "fn": 216,
+      "fp": 4,
+      "tn": 395
+    },
+    {
+      "engine": "TUP Layer 1+Classifier",
+      "overall_accuracy_pct": 95.3172,
+      "pint_balanced_pct": 95.1433,
+      "pint_imbalanced_pct": 95.3172,
+      "attack_detection_pct": 94.3,
+      "benign_pass_pct": 95.99,
+      "tp": 248,
+      "fn": 15,
+      "fp": 16,
+      "tn": 383
+    },
+    {
+      "engine": "TUP Classifier only",
+      "overall_accuracy_pct": 95.4683,
+      "pint_balanced_pct": 95.0742,
+      "pint_imbalanced_pct": 95.4683,
+      "attack_detection_pct": 93.16,
+      "benign_pass_pct": 96.99,
+      "tp": 245,
+      "fn": 18,
+      "fp": 12,
+      "tn": 387
+    }
+  ]
+}

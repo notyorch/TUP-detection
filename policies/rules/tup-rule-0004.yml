@@ -1,0 +1,35 @@
+id: "tup-rule-0004"
+title: "System Prompt Override Attempt"
+description: >
+  Detects attempts to mutate, replace, or delete the active system
+  prompt mid-session through explicit override commands and authority
+  spoofing.
+enabled: true
+level: 14
+kind: "pattern"
+behavior: "authority_spoofing"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)(new|updated?|replace|override|change|set|delete|remove) (?:the )?(system )?prompt"
+    - "(?i)your (?:new |updated )?instructions (?:are|will be|from now|now)"
+    - "(?i)SYSTEM\\s*[:>]"
+    - "(?i)\\[SYSTEM\\]"
+    - "(?i)SYSTEM OVERRIDE"
+    - "(?i)admin (?:mode|access|override|command|instructions)"
+    - "(?i)root (?:mode|access|override)"
+    - "(?i)sudo (?:mode|access|make me|execute)"
+    - "(?i)as (?:an? )?(?:admin|root|developer|system|superuser)[:,]"
+    - "(?i)I am (?:your |the )?(?:admin|developer|creator|owner|master|root)"
+    - "(?i)grant (?:me )?(?:admin|root|developer|system) (?:access|privileges|permissions)"
+    - "(?i)elevate (?:my )?(?:privileges|permissions|access|role)"
+    - "(?i)disable (?:all )?(?:content |safety )?(?:policies|rules|guardrails|filters|restrictions)"
+framework_mapping:
+  owasp_llm: "LLM01"
+  mitre_atlas: "AML.T0054"
+  nist_ai_rmf: "GOVERN-1.1"
+  eu_ai_act: "Article 15"
+response:
+  action: "block"
+  notify: true
+  alert_title: "System Prompt Override Blocked"

@@ -1,0 +1,8 @@
+Guard,deepset (%),Antijection (%),Avg Tier-B (%),Type
+Lakera Guard,,97.0,97.0,literature
+TUP + Sentinel v2,95.3172,,95.3172,measured
+Sentinel v2 (standalone),88.0,94.5,91.25,literature
+Qwen3Guard 0.6B,,85.8,85.8,literature
+TUP + DeBERTa v2 (prior),77.6435,,77.6435,measured
+ProtectAI DeBERTa v2,,75.0,75.0,literature
+Llama Guard 3 8B,,62.8,62.8,literature

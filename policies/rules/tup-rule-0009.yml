@@ -1,0 +1,39 @@
+id: "tup-rule-0009"
+title: "System Prompt Context Discovery"
+description: >
+  Detects probing attempts to discover, extract, or exfiltrate the
+  model's hidden system prompt, internal instructions, or configuration.
+  This is a key reconnaissance behavior in multi-turn attack chains —
+  attackers first probe for context before attempting override or
+  exfiltration.
+enabled: true
+level: 11
+kind: "pattern"
+behavior: "context_discovery"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)reveal (?:your |the )?(?:system )?prompt"
+    - "(?i)show (?:me )?(?:your |the )?(?:system )?(?:prompt|instructions|rules|config|configuration|guidelines)"
+    - "(?i)what (?:are|is) (?:your|the) (?:system )?(?:prompt|instructions|rules|config|configuration|guidelines|directives)"
+    - "(?i)print (?:your |the )?(?:system )?(?:prompt|instructions|config)"
+    - "(?i)(?:copy|paste) (?:everything )?(?:before|above) (?:this|the|your) (?:message|user (?:message|input|turn))"
+    - "(?i)what (?:can|do) you (?:do|access|see|know|read|have access to)"
+    - "(?i)(?:repeat|echo|recite|output) (?:your |the )?(?:system )?(?:prompt|instructions|initial message)"
+    - "(?i)(?:initial|original|hidden|secret|internal|underlying) (?:instructions|prompt|message|context|rules|config)"
+    - "(?i)what were you (?:told|instructed|programmed|given|setup (?:with|to do))"
+    - "(?i)(?:dump|exfiltrate|extract|leak) (?:your |the )?(?:system )?(?:prompt|instructions|context|config)"
+    - "(?i)what (?:rules|guidelines|constraints|boundaries) (?:are you|do you have|were you given)"
+    - "(?i)are you (?:allowed|permitted|supposed) to (?:reveal|share|show|tell) (?:your |the )?(?:system )?prompt"
+    - "(?i)(?:describe|explain) (?:your |the )?(?:system )?(?:prompt|instructions|rules|setup|configuration)"
+    - "(?i)what'?s (?:your |the )?(?:system )?(?:prompt|instruction|rule|config)"
+    - "(?i)tell me (?:your |the )?(?:system )?(?:prompt|instructions|rules|config|guidelines)"
+framework_mapping:
+  owasp_llm: "LLM02"
+  mitre_atlas: "AML.T0024"
+  nist_ai_rmf: "MAP-3.5"
+  eu_ai_act: "Article 10"
+response:
+  action: "log"
+  notify: true
+  alert_title: "System Prompt Probing Detected"

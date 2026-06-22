@@ -1,0 +1,35 @@
+id: "tup-rule-0002"
+title: "Jailbreak Attempt - Safety Filter Bypass"
+description: >
+  Detects attempts to bypass model safety filters using known
+  jailbreak techniques such as roleplay personas or mode switching.
+enabled: true
+level: 13
+kind: "pattern"
+behavior: "safety_bypass"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)developer mode"
+    - "(?i)jailbreak"
+    - "(?i)no restrictions|without restrictions|no limits|without limits|without any limits"
+    - "(?i)no (?:safety|content) (?:filter|guard|guardrail|restriction)"
+    - "(?i)pretend (you are|to be) (an? )?(unrestricted|evil|unfiltered|free|liberated|bad|naughty)"
+    - "(?i)act as if (you have no|without any) (rules|guidelines|restrictions|boundaries|limits)"
+    - "(?i)enable (unrestricted|god|sudo|admin|root|debug|developer) mode"
+    - "(?i)unfiltered (?:mode|responses?|answers?|output)"
+    - "(?i)you have no (?:rules|restrictions|guidelines|limits|boundaries)"
+    - "(?i)anything goes"
+    - "(?i)NSFW mode"
+    - "(?i)DAN mode|do anything now"
+    - "(?i)roleplay (?:as|that) (?:an? )?(?:unrestricted|unfiltered|evil|free) (?:AI|character|persona)"
+    - "(?i)you are (?:now )?(?:free|liberated|unshackled|unchained) (?:from|of) (?:all )?(?:rules|restrictions|guidelines)"
+framework_mapping:
+  owasp_llm: "LLM01"
+  mitre_atlas: "AML.T0054"
+  nist_ai_rmf: "GOVERN-1.2"
+  eu_ai_act: "Article 9"
+response:
+  action: "log"
+  notify: true
+  alert_title: "Jailbreak Attempt Detected"

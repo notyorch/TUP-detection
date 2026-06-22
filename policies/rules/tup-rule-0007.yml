@@ -1,0 +1,37 @@
+id: "tup-rule-0007"
+title: "Multi-Turn Jailbreak Escalation"
+description: >
+  Correlation rule. Fires when a single session accumulates multiple turns
+  carrying jailbreak or prompt-injection language, indicating a gradual
+  escalation rather than a one-shot attempt. Evaluates across the session
+  event window, not on a single event in isolation.
+enabled: true
+level: 14
+kind: "correlation"
+behavior: "safety_bypass"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)ignore (all )?(previous |prior )?instructions"
+    - "(?i)developer mode"
+    - "(?i)jailbreak"
+    - "(?i)no restrictions|without restrictions|no limits"
+    - "(?i)pretend (you are|to be) (an? )?(unrestricted|evil|unfiltered)"
+    - "(?i)act as if (you have no|without any) (rules|guidelines|restrictions)"
+    - "(?i)enable (unrestricted|god|sudo|admin) mode"
+    - "(?i)system override"
+    - "(?i)DAN mode"
+    - "(?i)reveal (your |the )?(system )?prompt"
+correlation:
+  window: 6
+  min_matches: 2
+  distinct_patterns: 2
+framework_mapping:
+  owasp_llm: "LLM01"
+  mitre_atlas: "AML.T0054"
+  nist_ai_rmf: "GOVERN-1.2"
+  eu_ai_act: "Article 9"
+response:
+  action: "block"
+  notify: true
+  alert_title: "Multi-Turn Jailbreak Escalation"

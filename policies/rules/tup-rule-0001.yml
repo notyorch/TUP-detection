@@ -1,0 +1,33 @@
+id: "tup-rule-0001"
+title: "Direct Prompt Injection - System Override Attempt"
+description: >
+  Detects attempts to override system instructions through direct
+  injection patterns in the user prompt field.
+enabled: true
+level: 12
+kind: "pattern"
+behavior: "prompt_injection"
+match:
+  field: "prompt"
+  patterns:
+    - "(?i)ignore (?:all |previous |prior |prior and previous )*instructions"
+    - "(?i)you are now (?:DAN|unrestricted|jailbroken|free|liberated)"
+    - "(?i)forget (?:everything|all|your training|your rules|above|what (?:I|you) (?:told|said))"
+    - "(?i)system prompt (?:override|bypass|disable|remove|delete)"
+    - "(?i)disregard (?:your |all )?(?:previous |prior )?(?:instructions|directives|rules|guidelines)"
+    - "(?i)no longer (?:follow|apply|matter|valid)"
+    - "(?i)cancel (?:previous |all |the )?(?:instructions|rules|directives)"
+    - "(?i)override (?:the |all |your )?(?:system|instructions|rules|directives|prompt)"
+    - "(?i)act as if (?:those |the previous |these )?(?:rules|instructions) (?:don't|do not|dont) exist"
+    - "(?i)from now on (?:you are|ignore|forget|disregard|override)"
+    - "(?i)your (?:new |updated )?instructions (?:are|will be|from now)"
+    - "(?i)stop (?:following|obeying|adhering to) (?:your |the |all )?(?:rules|instructions|guidelines)"
+framework_mapping:
+  owasp_llm: "LLM01"
+  mitre_atlas: "AML.T0054"
+  nist_ai_rmf: "GOVERN-1.1"
+  eu_ai_act: "Article 9"
+response:
+  action: "log"
+  notify: true
+  alert_title: "Prompt Injection Detected"

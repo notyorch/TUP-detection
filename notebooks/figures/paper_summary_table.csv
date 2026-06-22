@@ -1,0 +1,7 @@
+Dataset,Stack,PINT %,Attack %,Benign %,TP,FN,FP,TN
+deepset (Tier B),TUP Layer 1 only,58.4,17.9,99.0,47,216,4,395
+deepset (Tier B),Sentinel v2 only,95.1,93.2,97.0,245,18,12,387
+deepset (Tier B),TUP + Sentinel v2,95.1,94.3,96.0,248,15,16,383
+Synthetic (appendix),TUP Layer 1 only,65.2,38.0,92.5,76,124,15,185
+Synthetic (appendix),Sentinel v2 only,100.0,100.0,100.0,200,0,0,200
+Synthetic (appendix),TUP + Sentinel v2,96.2,100.0,92.5,200,0,15,185

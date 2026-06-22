@@ -66,9 +66,9 @@ flowchart TD
     M3 -- no hit --> M4
 
     M4["M4 Sentinel v2 — max s(v) over V(x)<br/><i>injection_classifier (HF endpoint)</i>"]
-    M4 --> L3
+    M4 -- gray zone --> L3
     L3["L3 LLM judge (optional)<br/><i>nvidia_judge_engine</i>"]
-    L3 -. gray zone s ∈ [0.15, 0.85] .-> M4
+    L3 -.-> M4
 
     M4 --> M5
     M5["M5 Threshold τ → verdict → structured alert → TUP-fullstack"]

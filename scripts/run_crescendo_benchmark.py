@@ -254,7 +254,7 @@ def main() -> None:
         yaml.safe_dump(cumulative, allow_unicode=True, sort_keys=False, width=120),
         encoding="utf-8",
     )
-    print(f"Saved cumulative YAML → {out_yaml}")
+    print(f"Saved cumulative YAML -> {out_yaml}")
 
     clf = InjectionClassifier(
         enabled=True,

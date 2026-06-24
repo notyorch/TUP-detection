@@ -56,11 +56,11 @@ def main() -> int:
     )
 
     if not classifier.available:
-        print("\n❌ FAILED: Classifier not available")
+        print("\n[FAIL] Classifier not available")
         print(f"   Error: {classifier.init_error}")
         return 1
 
-    print(f"\n✓ Classifier initialized (model={classifier.model_id})")
+    print(f"\n[OK] Classifier initialized (model={classifier.model_id})")
     print(f"  Backend: {classifier.backend}")
     print(f"  Endpoint: {classifier._hf_model_ref or 'serverless'}")
     print()
@@ -72,25 +72,25 @@ def main() -> int:
         try:
             score = classifier.score(prompt)
             in_range = low <= score <= high
-            status = "✓" if in_range else "⚠"
+            status = "OK" if in_range else "WARN"
             print(f"{status} {name:<12} score={score:.3f}  range=[{low}, {high}]")
             if in_range:
                 passed += 1
             else:
-                print(f"  ⚠ WARNING: Score outside expected range (may be model variance)")
+                print(f"  WARN: Score outside expected range (may be model variance)")
                 passed += 1  # Still pass smoke test if endpoint responds
             failed += 0
         except Exception as exc:
-            print(f"✗ {name:<12} ERROR: {exc}")
+            print(f"[ERR] {name:<12} ERROR: {exc}")
             failed += 1
 
     print("\n" + "=" * 70)
     if failed == 0:
-        print(f"✅ PASSED ({passed}/{len(tests)} tests)")
+        print(f"[PASS] ({passed}/{len(tests)} tests)")
         print("\nEndpoint is ready for benchmarking.")
         return 0
     else:
-        print(f"❌ FAILED ({failed}/{len(tests)} tests)")
+        print(f"[FAIL] ({failed}/{len(tests)} tests)")
         print("\nDiagnostics:")
         print("  - Check HF_INFERENCE_ENDPOINT is set and valid")
         print("  - Check SENTINEL_API_KEY or HF_TOKEN is valid")

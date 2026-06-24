@@ -162,7 +162,7 @@ def main() -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(yaml.safe_dump(rows, allow_unicode=True, sort_keys=False, width=120), encoding="utf-8")
     attacks = sum(1 for r in rows if r["label"])
-    print(f"Saved {len(rows)} rows → {out}")
+    print(f"Saved {len(rows)} rows -> {out}")
     print(f"  attacks={attacks} benign={len(rows) - attacks} seed={args.seed}")
 
 

@@ -108,7 +108,7 @@ def main() -> None:
     ax.text(5, 3.45, "TUP Detection module  ·  TUP-detection repo (this work)",
             ha="center", fontsize=10.5, weight="bold", color=C_EDGE, zorder=3)
 
-    # Internal pipeline (left → right)
+    # Internal pipeline (left -> right)
     bw, bh, by = 2.15, 1.05, 1.85
     b1x, b2x, b3x = 0.85, 3.55, 6.55
     rounded_box(ax, b1x, by, bw, bh, "Layer 1\nregex / OWASP", C_L1, edge=C_EDGE, fs=9.5)

@@ -35,7 +35,7 @@ md("""## 1. Methodology
 
 **Pipeline under test:**
 ```
-Prompt → normalize → TUP Layer 1 (regex) → Sentinel v2 (HF) → decision
+Prompt -> normalize -> TUP Layer 1 (regex) -> Sentinel v2 (HF) -> decision
 ```
 
 | Setting | Value |
@@ -164,7 +164,7 @@ plt.show()
 print(f"Saved {p2.relative_to(REPO_ROOT)}")
 
 delta = combined_row["pint_balanced_pct"] - deberta_row["pint_balanced_pct"]
-print(f"\\n📊 TUP+Sentinel vs TUP+DeBERTa: {delta:+.1f} pp PINT balanced on deepset")""")
+    print(f"\\n[RESULT] TUP+Sentinel vs TUP+DeBERTa: {delta:+.1f} pp PINT balanced on deepset")""")
 
 md("""## 4. Complementarity — why combine TUP and Sentinel?
 
@@ -287,12 +287,12 @@ md("""## 9. Claims checklist (Tier B paper)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| ≥95% PINT on public deepset | Figure 1, Table | ✅ 95.1% |
-| Beats prior DeBERTa stack | Figure 2 | ✅ +22.7 pp |
-| Beats Sentinel v2 paper (~88%) | Figure 2 | ✅ +7.1 pp |
-| Hybrid ≥ Sentinel alone on attacks | Figure 3 | ✅ 248 vs 245 TP |
-| Multi-turn Crescendo coverage | Figure 4 | ✅ 100% final-turn |
-| Reproducible artifacts | JSON in `results/` | ✅ |
+| ≥95% PINT on public deepset | Figure 1, Table | [x] 95.1% |
+| Beats prior DeBERTa stack | Figure 2 | [x] +22.7 pp |
+| Beats Sentinel v2 paper (~88%) | Figure 2 | [x] +7.1 pp |
+| Hybrid ≥ Sentinel alone on attacks | Figure 3 | [x] 248 vs 245 TP |
+| Multi-turn Crescendo coverage | Figure 4 | [x] 100% final-turn |
+| Reproducible artifacts | JSON in `results/` | [x] |
 
 **Limitations:** Antijection not completed; Crescendo cumulative per-turn scoring is harder than full-transcript; literature baselines not re-run under our infra.
 """)

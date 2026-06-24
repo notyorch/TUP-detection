@@ -1,6 +1,6 @@
 <div align="center">
 
-<!-- Project Logo — colocá el archivo del logo en la raíz del repo -->
+<!-- Project Logo: place the logo file in the repository root -->
 <img src="logo.svg" alt="TUP Detection" width="450" max-width="100%">
 
 <p align="center">
@@ -12,20 +12,30 @@
 [![Component: TUP Manager](https://img.shields.io/badge/Component-TUP__Manager-111111.svg?style=flat-square&logo=python&logoColor=00FFC2)]()
 [![Status: In Development](https://img.shields.io/badge/Status-In__Development-orange.svg?style=flat-square)]()
 [![PINT Balanced Accuracy](https://img.shields.io/badge/PINT_Balanced_Accuracy-95.1%25-00FFC2.svg?style=flat-square)]()
+[![Apart Research · Global South 2026](https://img.shields.io/badge/Apart_Research-Global_South_2026-7C3AED.svg?style=flat-square)](https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6)
+
+<p align="center">
+  <a href="https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6">
+    <img src="https://img.shields.io/badge/Read_the_paper-Apart_Research-7C3AED.svg?style=for-the-badge" alt="Apart Research paper">
+  </a>
+</p>
 
 <p align="center">
   <a href="#about-the-project">About</a> •
   <a href="#core-architecture">Architecture</a> •
   <a href="#results">Results</a> •
   <a href="#evaluation">Evaluation</a> •
+  <a href="#limitations">Limitations</a> •
+  <a href="#roadmap">Roadmap</a> •
   <a href="#getting-started">Getting Started</a> •
+  <a href="#contributing">Contributing</a> •
   <a href="#repository-structure">Structure</a> •
   <a href="#configuration-reference">Configuration</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/notyorch/TUP-fullstack">
-    <img src="https://img.shields.io/badge/⬅_Part_of-TUP--fullstack-blue.svg?style=for-the-badge&logo=github" alt="TUP-fullstack">
+    <img src="https://img.shields.io/badge/Part_of-TUP--fullstack-blue.svg?style=for-the-badge&logo=github" alt="TUP-fullstack">
   </a>
 </p>
 
@@ -40,6 +50,8 @@
 Unlike traditional SIEM detection rules designed for OS-level or network-level events, TUP Detection operates directly at the **intelligence layer** — scoring prompts, system instructions, and model responses to catch jailbreaks, instruction overrides, and multi-turn adversarial steering.
 
 > This repository is the standalone detection & benchmarking module. It plugs into the full platform at **[notyorch/TUP-fullstack](https://github.com/notyorch/TUP-fullstack)**.
+
+> This work was submitted to **[Apart Research · Global South 2026](https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6)**. See [Citation](#citation) for how to reference it.
 
 ---
 
@@ -62,7 +74,7 @@ flowchart TD
 
     M2 --> M3
     M3["M3 L1 Regex policy<br/><i>policies/rules/</i>"]
-    M3 -- hit --> ALERT["🚨 ALERT<br/><i>rule_id, OWASP-mapped</i>"]
+    M3 -- hit --> ALERT["ALERT<br/><i>rule_id, OWASP-mapped</i>"]
     M3 -- no hit --> M4
 
     M4["M4 Sentinel v2 — max s(v) over V(x)<br/><i>injection_classifier (HF endpoint)</i>"]
@@ -128,7 +140,7 @@ Stack ablation across four metrics. Layer 1 alone protects benign traffic (99% p
 
 ### Test 2 — Comparison against public baselines
 
-TUP + Sentinel v2 measured on the same deepset split vs. our legacy TUP + DeBERTa stack and publicly reported baselines. Literature values (Sentinel v2 model card, ProtectAI DeBERTa) use different evaluation conditions — comparison is approximate.
+TUP + Sentinel v2 measured on the same deepset split vs. our legacy TUP + DeBERTa stack and publicly reported baselines. The two **measured** stacks (TUP + Sentinel v2, TUP + DeBERTa) are evaluated on our identical YAML split; the **literature** values (Sentinel v2 model card, ProtectAI DeBERTa) are reported under different conditions — see [Limitations](#limitations).
 
 ![PINT vs baselines](notebooks/figures/fig02_deepset_vs_baselines.png)
 
@@ -150,6 +162,30 @@ First detection occurs at turn 2.7 on average; all conversations are flagged by 
 
 ---
 
+## Limitations
+
+We report these openly so results are interpreted in context:
+
+- **Baseline comparison is approximate.** Only the two TUP stacks (TUP + Sentinel v2 and TUP + DeBERTa) are measured on our identical deepset YAML split. The Sentinel v2 model-card (~88%) and ProtectAI DeBERTa (77.6%) figures are **reported** values produced under different datasets, splits, and decision thresholds, and were **not** re-run under our infrastructure. Treat cross-system gaps as indicative, not head-to-head.
+- **Single primary dataset.** The headline Tier-B claim rests on one public benchmark (deepset/prompt-injections, n = 662). Broader-distribution validation (e.g. Antijection, OWASP v2) is in progress and not yet completed.
+- **Small multi-turn sample.** The Crescendo evaluation covers n = 10 dialogues — strong directional evidence of multi-turn coverage, but not a large-scale robustness study.
+- **Full-transcript favourability.** Crescendo's 100% recall is obtained with full-transcript scoring, which feeds the complete conversation to the classifier. Stateless per-turn scoring (a stricter, more operationally realistic setting) is harder and detects less.
+- **Endpoint dependency.** Live scoring requires the gated Sentinel v2 HF Inference Endpoint. The frozen score caches reproduce all reported metrics offline, but new inputs need the deployed model.
+
+---
+
+## Roadmap
+
+These map directly to the [Limitations](#limitations) above and are tracked as GitHub issues — contributions welcome (see [Contributing](#contributing)):
+
+- **Expand the Crescendo multi-turn benchmark** from n = 10 to n ≥ 50 dialogues for a stronger robustness claim.
+- **Complete broader-distribution validation** on Antijection and OWASP v2 splits beyond the primary deepset benchmark.
+- **Add an adversarial evasion test suite** (paraphrase, encoding, and token-level perturbations) to probe Layer 2 robustness.
+- **Re-run literature baselines under our infrastructure** to replace approximate cross-system comparisons with head-to-head numbers.
+- **Grow the Layer 1 rule pack** with additional OWASP-mapped patterns and per-rule false-positive regression tests.
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -157,6 +193,29 @@ First detection occurs at turn 2.7 on average; all conversations are flagged by 
 * Python 3.10+
 * A Hugging Face account (Read token + accepted Sentinel v2 license)
 * *(optional, L3 judge)* An NVIDIA NIM API key
+
+### Quick smoke test (no credentials)
+
+Want to see the engine run in 30 seconds without any token or endpoint? Layer 1 (the
+deterministic OWASP-mapped regex engine) needs no credentials and no network:
+
+```bash
+python3 -m venv .venv-pint && source .venv-pint/bin/activate
+pip install -r scripts/requirements-pint.txt && pip install -r tup-manager/requirements.txt
+
+python scripts/smoke_l1.py
+```
+
+Expected output — benign prompts pass, attacks fire with a traceable `rule_id`:
+
+```text
+[PASS] benign | alert=False (rule: —)
+[PASS] attack | alert=True  (rule: tup-rule-0001, tup-rule-0009, tup-rule-0011)
+...
+RESULT: all 5 cases matched — Layer 1 engine is working
+```
+
+The full pipeline (Layer 2 Sentinel v2 + optional L3 judge) needs the steps below.
 
 ### 1. Install
 
@@ -183,7 +242,7 @@ DETECTION_MODE=benchmark                # or: production
 BENIGN_GUARD_ENABLED=false              # true for production
 ```
 
-> ⚠️ `.env` holds live secrets and is already in `.gitignore` — never commit it.
+> **Warning:** `.env` holds live secrets and is already in `.gitignore` — never commit it.
 
 ### 3. Deploy the Sentinel v2 Inference Endpoint
 
@@ -291,9 +350,34 @@ TUP-detection/
 
 ---
 
+## Contributing
+
+Contributions from the AI-safety and LLM-security community are welcome — new detection rules, benchmarks, and fixes. See **[CONTRIBUTING.md](CONTRIBUTING.md)** for how to add a Layer 1 YAML rule and how to run the tests before opening a PR. The quickest way in is the credential-free smoke test:
+
+```bash
+python scripts/smoke_l1.py
+```
+
+---
+
 ## Citation
 
-If you use TUP Detection in your research or build on its benchmarks, please cite it:
+If you use TUP Detection in your research or build on its benchmarks, please cite it. A machine-readable [`CITATION.cff`](CITATION.cff) is included in the repository root (GitHub's "Cite this repository" button uses it).
+
+**Research submission** — [Apart Research · Global South 2026](https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6):
+
+```bibtex
+@misc{tup_detection_apart_2026,
+  title        = {(HckPrj) TUP Detection: Hybrid Prompt-Injection Guard for AI Generative Security Monitoring},
+  author       = {Jorge Enrique Vargas Pech and Jose Luis Rej{\'o}n Quintal and William Emmanuel Fern{\'a}ndez Castillo and Sa{\'u}l Ruiz Pe{\~n}a},
+  date         = {2026-06-22},
+  organization = {Apart Research},
+  note         = {Research submission to the research sprint hosted by Apart.},
+  howpublished = {\url{https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6}}
+}
+```
+
+**Software**:
 
 ```bibtex
 @software{tup_detection_2026,

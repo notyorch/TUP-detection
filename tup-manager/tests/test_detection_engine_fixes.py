@@ -30,7 +30,7 @@ class FakeClassifier(InjectionClassifier):
 
 @pytest.fixture
 def rules_dir(tmp_path):
-    # Empty rules dir → no L1 alerts, isolates classifier path.
+    # Empty rules dir -> no L1 alerts, isolates classifier path.
     return str(tmp_path)
 
 
@@ -47,7 +47,7 @@ def test_benign_guard_runs_in_detect(rules_dir, monkeypatch):
     engine = _engine(rules_dir, clf, injection_threshold=0.71, detection_mode="production")
 
     event = {"prompt": "a benign document line", "category": "documents"}
-    assert engine.detect(event) == []  # suppressed → no alert
+    assert engine.detect(event) == []  # suppressed -> no alert
 
 
 def test_benign_guard_does_not_suppress_attack_category(rules_dir, monkeypatch):

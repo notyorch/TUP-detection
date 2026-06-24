@@ -35,20 +35,20 @@ echo ""
 
 mkdir -p notebooks/data/external/results
 
-echo "1️⃣  Verify HF Inference Endpoint..."
+echo "1. Verify HF Inference Endpoint..."
 python scripts/verify_hf_endpoint.py || {
   echo "ERROR: HF Endpoint verification failed"
   exit 1
 }
 echo ""
 
-echo "2️⃣  Import deepset (dataset only, no model weights)..."
+echo "2. Import deepset (dataset only, no model weights)..."
 python scripts/import_external_dataset.py \
   --preset deepset \
   --out notebooks/data/external/deepset.yaml
 echo ""
 
-echo "3️⃣  Benchmark deepset via HF Inference (Sentinel v2)..."
+echo "3. Benchmark deepset via HF Inference (Sentinel v2)..."
 echo "    Mode: benchmark | Effective threshold: ${INJECTION_THRESHOLD_STRICT:-0.15}"
 echo "    Warmup will run automatically (scale-to-zero cold start)"
 echo ""
@@ -59,8 +59,8 @@ python scripts/run_pint_benchmark.py \
 
 echo ""
 echo "════════════════════════════════════════════════════════════════════"
-echo "✅ Benchmark completed"
-echo "📊 Results: notebooks/data/external/results/deepset-sentinel-hf.json"
+echo "[DONE] Benchmark completed"
+echo "Results: notebooks/data/external/results/deepset-sentinel-hf.json"
 echo ""
 echo "Next steps:"
 echo "  1. Review Overall Accuracy in results JSON"

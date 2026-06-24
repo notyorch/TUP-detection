@@ -110,7 +110,7 @@ def convert_rows(rows: List[Dict[str, Any]], preset: str) -> List[Dict[str, Any]
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Import public dataset → PINT YAML")
+    p = argparse.ArgumentParser(description="Import public dataset -> PINT YAML")
     p.add_argument("--preset", choices=sorted(PRESETS.keys()), help="Built-in HF preset")
     p.add_argument("--hf-id", help="Override HuggingFace dataset id")
     p.add_argument("--split", default=None)
@@ -152,7 +152,7 @@ def main() -> None:
             yaml.safe_dump(pint_rows, allow_unicode=True, sort_keys=False, width=120),
             encoding="utf-8",
         )
-    print(f"Saved {len(pint_rows)} rows → {out}")
+    print(f"Saved {len(pint_rows)} rows -> {out}")
     print(f"  attacks={attacks} benign={benign}")
 
 

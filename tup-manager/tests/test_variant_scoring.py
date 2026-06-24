@@ -41,7 +41,7 @@ def test_variant_dedup_reduces_api_calls():
     assert scores[1] == pytest.approx(0.1)
     assert scores[2] == pytest.approx(0.9)
     # "hello world" (raw == normalized) appears in 2 rows but scored once.
-    # Unique variants here: {"hello world", "an attack prompt"} → <= 2 calls.
+    # Unique variants here: {"hello world", "an attack prompt"} -> <= 2 calls.
     assert clf.api_calls <= 2
 
 

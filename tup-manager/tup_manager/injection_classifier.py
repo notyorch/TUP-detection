@@ -358,12 +358,12 @@ class InjectionClassifier:
             self.scoring_failures += 1
         if self.fail_open:
             _log.error(
-                "HF inference failed after %s tries (fail-OPEN → scoring as benign 0.0): %s",
+                "HF inference failed after %s tries (fail-OPEN -> scoring as benign 0.0): %s",
                 retries, last_exc,
             )
             return 0.0
         _log.error(
-            "HF inference failed after %s tries (fail-CLOSED → scoring as malicious 1.0): %s",
+            "HF inference failed after %s tries (fail-CLOSED -> scoring as malicious 1.0): %s",
             retries, last_exc,
         )
         return 1.0

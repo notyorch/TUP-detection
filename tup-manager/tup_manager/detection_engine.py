@@ -15,7 +15,7 @@ INJECTION_ATTACK_RULES: Set[str] = {
 
 
 class DetectionEngine:
-    """L1 regex → Sentinel/HF classifier → optional NVIDIA judge L3 fallback."""
+    """L1 regex -> Sentinel/HF classifier -> optional NVIDIA judge L3 fallback."""
 
     def __init__(
         self,

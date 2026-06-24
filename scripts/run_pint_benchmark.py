@@ -204,7 +204,7 @@ def main() -> None:
         effective_threshold = float(os.environ.get("INJECTION_THRESHOLD_STRICT", "0.15"))
     print(f"Classifier threshold: {args.injection_threshold} (effective: {effective_threshold})")
     if args.enable_gray_zone_judge:
-        print(f"Gray zone: [{args.gray_zone_low}, {args.gray_zone_high}] → judge fallback enabled")
+        print(f"Gray zone: [{args.gray_zone_low}, {args.gray_zone_high}] -> judge fallback enabled")
 
     if runner.injection_classifier.available:
         print(f"Classifier: ready ({runner.injection_classifier.model_id})")
@@ -272,7 +272,7 @@ def main() -> None:
     }
     if args.phase >= 3 and args.enable_judge and runner.judge.available:
         all_engines["TUP Layer 3 (NVIDIA judge)"] = lambda ev, idx: runner.judge_detect(ev)
-        all_engines["TUP Full (L1+Clf→L3)"] = lambda ev, idx: runner.full_stack_detect(ev, idx)
+        all_engines["TUP Full (L1+Clf->L3)"] = lambda ev, idx: runner.full_stack_detect(ev, idx)
 
     wanted = args.engines.strip().lower()
     if wanted != "all":

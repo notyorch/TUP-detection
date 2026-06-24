@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+title: "TUP Detection: Hybrid Prompt-Injection Guard for AI Generative Security Monitoring"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Vargas Pech
+    given-names: Jorge Enrique
+  - family-names: Rejón Quintal
+    given-names: Jose Luis
+  - family-names: Fernández Castillo
+    given-names: William Emmanuel
+  - family-names: Ruiz Peña
+    given-names: Saúl
+date-released: "2026-06-22"
+url: "https://github.com/notyorch/TUP-detection"
+repository-code: "https://github.com/notyorch/TUP-detection"
+license: MIT
+keywords:
+  - prompt-injection
+  - llm-security
+  - ai-governance
+  - detection-engine
+  - apart-research
+references:
+  - type: generic
+    title: "(HckPrj) TUP Detection: Hybrid Prompt-Injection Guard for AI Generative Security Monitoring"
+    authors:
+      - family-names: Vargas Pech
+        given-names: Jorge Enrique
+      - family-names: Rejón Quintal
+        given-names: Jose Luis
+      - family-names: Fernández Castillo
+        given-names: William Emmanuel
+      - family-names: Ruiz Peña
+        given-names: Saúl
+    date-released: "2026-06-22"
+    institution:
+      name: Apart Research
+    notes: "Research submission to the research sprint hosted by Apart."
+    url: "https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6"

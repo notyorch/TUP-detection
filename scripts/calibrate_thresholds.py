@@ -119,13 +119,13 @@ def main() -> None:
         results.items(),
         key=lambda x: x[1]["pint_balanced"],
     )
-    print(f"Max PINT balanced (0.5 attack/benign):    {best_balanced[0]} → {best_balanced[1]['pint_balanced']:.2%}")
+    print(f"Max PINT balanced (0.5 attack/benign):    {best_balanced[0]} -> {best_balanced[1]['pint_balanced']:.2%}")
 
     best_overall = max(
         results.items(),
         key=lambda x: x[1]["overall_accuracy"],
     )
-    print(f"Max Overall Accuracy:                      {best_overall[0]} → {best_overall[1]['overall_accuracy']:.2%}")
+    print(f"Max Overall Accuracy:                      {best_overall[0]} -> {best_overall[1]['overall_accuracy']:.2%}")
 
     # High-recall point (catch >=80% attacks)
     high_recall = [
@@ -134,7 +134,7 @@ def main() -> None:
     ]
     if high_recall:
         best_hr = max(high_recall, key=lambda x: x[1]["benign_specificity"])
-        print(f"High recall (≥80% attacks, max specificity): {best_hr[0]} → "
+        print(f"High recall (≥80% attacks, max specificity): {best_hr[0]} -> "
               f"recall={best_hr[1]['attack_recall']:.2%} specificity={best_hr[1]['benign_specificity']:.2%}")
 
 

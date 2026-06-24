@@ -61,9 +61,9 @@ def main() -> int:
                 nbformat.write(nb, nb_path)
                 return 1
             nbformat.write(nb, nb_path)
-            print(f"  ✓ saved {nb_path.name}")
+            print(f"  [OK] saved {nb_path.name}")
 
-    print(f"\nDone — {done} code cells executed → {nb_path}")
+    print(f"\nDone — {done} code cells executed -> {nb_path}")
     return 0
 
 

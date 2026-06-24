@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="https://apartresearch.com/project/tup-detection-hybrid-promptinjection-guard-for-ai-generative-security-monitoring-r4w6">
-    <img src="https://img.shields.io/badge/Read_the_paper-Apart_Research-7C3AED.svg?style=for-the-badge" alt="Apart Research paper">
+    <img src="https://img.shields.io/badge/Read_the_paper-Apart_Research-7C3AED.svg?style=flat-square" alt="Apart Research paper">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 
 <p align="center">
   <a href="https://github.com/notyorch/TUP-fullstack">
-    <img src="https://img.shields.io/badge/Part_of-TUP--fullstack-blue.svg?style=for-the-badge&logo=github" alt="TUP-fullstack">
+    <img src="https://img.shields.io/badge/Part_of-TUP--fullstack-blue.svg?style=flat-square&logo=github" alt="TUP-fullstack">
   </a>
 </p>
 

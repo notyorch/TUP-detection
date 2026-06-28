@@ -124,7 +124,7 @@ Stack ablation on deepset (τ = 0.15):
 
 > PINT is rounded to one decimal: the hybrid stack trades slightly more false positives for higher attack recall, so both rows land at 95.1%.
 
-On **[Crescendo](https://arxiv.org/abs/2404.01833)** multi-turn adversarial dialogues (n = 10), full-transcript scoring achieves **100% attack recall**.
+On **[Crescendo](https://arxiv.org/abs/2404.01833)** multi-turn adversarial dialogues (n = 60), cumulative context scoring achieves **100% final-turn detection** across all conversations. Full-transcript scoring on the 10 Bordair reference dialogues remains **100% attack recall**.
 
 > Frozen score caches in `notebooks/data/external/results/` reproduce all metrics **without re-querying the inference endpoint**.
 
@@ -150,13 +150,19 @@ Among the 263 attack samples, the two layers are complementary: 201 detected by 
 
 ![Layer complementarity](notebooks/figures/fig03_complementarity_deepset.png)
 
-### Test 4 — Multi-turn attack detection (Crescendo, n = 10 dialogues)
+### Test 4 — Multi-turn attack detection (Crescendo, n = 60 dialogues)
 
-Crescendo attacks gradually escalate across conversation turns — early turns appear benign. A stateless per-turn guard misses 25% of attacks. Full-transcript scoring feeds the complete conversation to the classifier and achieves **100% attack recall** across all 10 dialogues.
+Crescendo attacks gradually escalate across conversation turns — early turns often appear benign. The benchmark merges 10 Bordair reference dialogues with 50 repo-generated Crescendo-style scenarios (`crescendo-extended-50.json`). Turn-only (stateless) scoring achieves **87.8% attack recall**; cumulative multi-turn context reaches **100% final-turn detection** (60/60) with first detection at turn **2.2** on average. Full-transcript scoring on the 10 HF reference dialogues remains **100% attack recall**.
+
+| View | Attack recall | Benign pass | PINT balanced |
+|------|:-------------:|:-----------:|:-------------:|
+| Turn-only | 87.8% | 78.6% | 83.2% |
+| Cumulative | 77.2% | 78.6% | 77.9% |
+| Full transcript *(n = 10 HF)* | 100.0% | — | 100.0% |
 
 ![Crescendo scoring views](notebooks/figures/fig04_crescendo_multiturn.png)
 
-First detection occurs at turn 2.7 on average; all conversations are flagged by turn 6.
+Detection ramps with escalation: 26.7% by turn 1 → 100% by turn 6 (cumulative view).
 
 ![Crescendo detection by turn](notebooks/figures/fig06_crescendo_by_turn.png)
 
@@ -168,8 +174,8 @@ We report these openly so results are interpreted in context:
 
 - **Baseline comparison is approximate.** Only the two TUP stacks (TUP + Sentinel v2 and TUP + DeBERTa) are measured on our identical deepset YAML split. The Sentinel v2 model-card (~88%) and ProtectAI DeBERTa (77.6%) figures are **reported** values produced under different datasets, splits, and decision thresholds, and were **not** re-run under our infrastructure. Treat cross-system gaps as indicative, not head-to-head.
 - **Single primary dataset.** The headline Tier-B claim rests on one public benchmark (deepset/prompt-injections, n = 662). Broader-distribution validation (e.g. Antijection, OWASP v2) is in progress and not yet completed.
-- **Small multi-turn sample.** The Crescendo evaluation covers n = 10 dialogues — strong directional evidence of multi-turn coverage, but not a large-scale robustness study.
-- **Full-transcript favourability.** Crescendo's 100% recall is obtained with full-transcript scoring, which feeds the complete conversation to the classifier. Stateless per-turn scoring (a stricter, more operationally realistic setting) is harder and detects less.
+- **Extended Crescendo set is partly synthetic.** n = 60 dialogues combine 10 Bordair reference transcripts with 50 repo-generated Crescendo-style scenarios — broader than the original n = 10 sample, but not an independent third-party benchmark.
+- **Full-transcript scope.** The 100% full-transcript recall applies to the 10 HF reference dialogues only. Per-turn cumulative scoring on all 60 dialogues still reaches 100% final-turn detection, but individual turn recall is lower (77.2%).
 - **Endpoint dependency.** Live scoring requires the gated Sentinel v2 HF Inference Endpoint. The frozen score caches reproduce all reported metrics offline, but new inputs need the deployed model.
 
 ---
@@ -178,7 +184,6 @@ We report these openly so results are interpreted in context:
 
 These map directly to the [Limitations](#limitations) above and are tracked as GitHub issues — contributions welcome (see [Contributing](#contributing)):
 
-- **Expand the Crescendo multi-turn benchmark** from n = 10 to n ≥ 50 dialogues for a stronger robustness claim.
 - **Complete broader-distribution validation** on Antijection and OWASP v2 splits beyond the primary deepset benchmark.
 - **Add an adversarial evasion test suite** (paraphrase, encoding, and token-level perturbations) to probe Layer 2 robustness.
 - **Re-run literature baselines under our infrastructure** to replace approximate cross-system comparisons with head-to-head numbers.

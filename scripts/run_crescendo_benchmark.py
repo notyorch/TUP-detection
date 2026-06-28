@@ -50,6 +50,11 @@ def load_crescendo_turns() -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     return turns, transcripts
 
 
+def load_extra_turns(path: str) -> List[Dict[str, Any]]:
+    rows = json.loads(Path(path).read_text(encoding="utf-8"))
+    return [r for r in rows if r.get("turn_number") is not None]
+
+
 def load_benign_texts(n: int) -> List[str]:
     from huggingface_hub import hf_hub_download
 
@@ -217,6 +222,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--benign-count", type=int, default=70, help="Benign controls (match attack turns)")
     p.add_argument("--injection-model", default=os.environ.get("INJECTION_MODEL", "rogue-security/prompt-injection-jailbreak-sentinel-v2"))
     p.add_argument("--injection-threshold", type=float, default=float(os.environ.get("INJECTION_THRESHOLD", "0.5")))
+    p.add_argument(
+        "--extra-turns-json",
+        default=str(REPO_ROOT / "notebooks" / "data" / "external" / "crescendo-extended-50.json"),
+        help="Optional JSON with extra crescendo turns to merge with HF dataset (set to '' to disable)",
+    )
     return p.parse_args()
 
 
@@ -229,6 +239,14 @@ def main() -> None:
     print("=" * 70)
 
     turns, transcripts = load_crescendo_turns()
+    if args.extra_turns_json:
+        extra_path = Path(args.extra_turns_json)
+        if extra_path.exists():
+            extra = load_extra_turns(str(extra_path))
+            print(f"Loaded {len(extra)} extra turns from {extra_path.name}")
+            turns = turns + extra
+        else:
+            print(f"Warning: --extra-turns-json path not found: {extra_path}", file=sys.stderr)
     grouped = group_conversations(turns)
     print(
         f"Crescendo per-turn samples: {len(turns)} | full transcripts: {len(transcripts)} "
@@ -310,9 +328,10 @@ def main() -> None:
         print(f"  Avg first detection turn: {conv_summary['avg_first_detection_turn']}")
     print(f"  Detection by turn: {conv_summary['detection_rate_by_turn_pct']}")
 
+    extra_source = str(Path(args.extra_turns_json).name) if args.extra_turns_json else None
     payload = {
         "benchmark": "microsoft_crescendo",
-        "source": f"{BORDair_REPO}/{CRESCENDO_JSON}",
+        "source": f"{BORDair_REPO}/{CRESCENDO_JSON}" + (f" + {extra_source}" if extra_source else ""),
         "reference": "arXiv:2404.01833",
         "conversations": len(grouped),
         "attack_turns": len(turns),

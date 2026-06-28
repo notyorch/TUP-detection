@@ -145,6 +145,26 @@ def main() -> None:
     plt.savefig(p4, bbox_inches="tight", facecolor="white")
     plt.close()
 
+    # fig06
+    turn_rates = crescendo["conversation_metrics"]["detection_rate_by_turn_pct"]
+    turns = sorted(int(k) for k in turn_rates)
+    rates = [float(turn_rates[str(t)]) for t in turns]
+    fig, ax = plt.subplots(figsize=(7, 4.5))
+    ax.plot(turns, rates, marker="o", color="#0D9488", linewidth=2, markersize=8)
+    ax.fill_between(turns, rates, alpha=0.15, color="#0D9488")
+    ax.set_xlabel("Conversation turn")
+    ax.set_ylabel("Detection rate (%) — cumulative view")
+    ax.set_title("Figure 6. Crescendo detection rate by turn (cumulative context)")
+    ax.set_xticks(turns)
+    ax.set_ylim(0, 105)
+    ax.grid(True, alpha=0.3)
+    for turn, rate in zip(turns, rates):
+        ax.text(turn, rate + 2, f"{rate:.0f}%", ha="center", fontsize=9)
+    plt.tight_layout()
+    p6 = FIGURES / "fig06_crescendo_by_turn.png"
+    plt.savefig(p6, bbox_inches="tight", facecolor="white")
+    plt.close()
+
     # fig05
     row = df_deep.loc["TUP + Sentinel v2"]
     cm = np.array([[int(row["tn"]), int(row["fp"])], [int(row["fn"]), int(row["tp"])]])
